@@ -17,11 +17,10 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 
 // show images 
 const showImages = (images) => {
-  console.log(images.length);
+
   if(images.length==0){
     gallery.innerHTML = '';
     document.getElementById('nothing-show').style.display='block';
-    console.log("Nothing found!");
     spinnerView(false);
   }
   else{
@@ -44,7 +43,6 @@ const showImages = (images) => {
 }
 // spinner function
 const spinnerView = (value)=>{
-  console.log(value);
   const spinner = document.getElementById('spinner-view');
   if(value==true){
     spinner.classList.remove('d-none');
@@ -56,7 +54,6 @@ const spinnerView = (value)=>{
 }
 const getImages = (query) => {
   spinnerView(true);
-  console.log("value is",query)
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
     .then(data => showImages(data.hits))
@@ -65,20 +62,14 @@ const getImages = (query) => {
 }
 
 let slideIndex = 0;
-
 const selectItem = (event, img) => {
   let element = event.target;
-  
   element.classList.add('added');
-
   let item = sliders.indexOf(img);
-  console.log(img);
   if (item === -1) {
-    console.log(sliders);
     sliders.push(img);
   } else {
-    console.log(sliders);
-    sliders.shift(img);
+    sliders.splice(item,1);
     element.classList.remove('added');
   }
   
@@ -149,7 +140,6 @@ const changeSlide = (index) => {
 searchBtn.addEventListener('click', function () {
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
-  console.log(sliders);
   const search = document.getElementById('text-typed');
   getImages(search.value)
   sliders.length = 0;
@@ -158,7 +148,6 @@ searchBtn.addEventListener('click', function () {
 sliderBtn.addEventListener('click', function () {
   const timeValue = timeInput.value;
   const time = parseInt(timeValue);
-  console.log(time);
   if (parseInt(time) < 0) {
     alert('WARNING! Your time cannot be Negative!');
   }
@@ -167,13 +156,11 @@ sliderBtn.addEventListener('click', function () {
   }
 })
 textTyped.addEventListener("keypress",(event)=>{
-  // console.log(event.key);
  if(event.key =='Enter'){
   searchBtn.click();
  }
 })
 timeInput.addEventListener("keypress",(event)=>{
-  // console.log(event.key);
  if(event.key =='Enter'){
   sliderBtn.click();
  }
